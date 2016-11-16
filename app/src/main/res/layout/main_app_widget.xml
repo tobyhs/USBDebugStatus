@@ -11,12 +11,13 @@
         tools:ignore="ContentDescription"
         android:src="@mipmap/ic_launcher" />
 
-    <View
-        android:id="@+id/statusIndicator"
-        android:layout_width="20dp"
-        android:layout_height="10dp"
-        android:layout_margin="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+    <TextView
+        android:id="@+id/offIndicator"
+        style="@style/StatusIndicator"
+        android:background="@color/usbDebugOff" />
 
+    <TextView
+        android:id="@+id/onIndicator"
+        style="@style/StatusIndicator"
+        android:background="@color/usbDebugOn" />
 </RelativeLayout>
