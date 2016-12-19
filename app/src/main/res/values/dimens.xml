@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="widgetDimension">60dp</dimen>
+    <dimen name="widgetDimension">40dp</dimen>
 
     <dimen name="statusIndicatorHeight">10dp</dimen>
     <dimen name="statusIndicatorWidth">20dp</dimen>
-    <dimen name="statusIndicatorMarginTop">15dp</dimen>
 </resources>
