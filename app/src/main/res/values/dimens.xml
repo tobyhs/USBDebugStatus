@@ -3,5 +3,5 @@
     <dimen name="widgetDimension">40dp</dimen>
 
     <dimen name="statusIndicatorHeight">10dp</dimen>
-    <dimen name="statusIndicatorWidth">20dp</dimen>
+    <dimen name="statusIndicatorWidth">15dp</dimen>
 </resources>
