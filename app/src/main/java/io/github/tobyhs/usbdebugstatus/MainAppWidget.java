@@ -1,5 +1,6 @@
 package io.github.tobyhs.usbdebugstatus;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -19,11 +20,15 @@ public class MainAppWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_app_widget);
+
+        Intent devOptsIntent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, devOptsIntent, 0);
+        views.setOnClickPendingIntent(R.id.widgetIcon, pendingIntent);
+
         boolean adbEnabled = Settings.Global.getInt(
                 context.getContentResolver(), Settings.Global.ADB_ENABLED, 0
         ) == 1;
-
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_app_widget);
         int color = adbEnabled ? Color.GREEN : Color.RED;
         views.setInt(R.id.statusIndicator, "setBackgroundColor", color);
 

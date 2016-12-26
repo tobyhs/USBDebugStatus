@@ -79,4 +79,17 @@ public class MainAppWidgetTest {
         widget.onDisabled(application);
         assertThat(shadowApp.getNextStoppedService().getComponent(), is(serviceComponent));
     }
+
+    @Test
+    public void clickOpensDeveloperOptions() {
+        int widgetId = shadowWidgetManager.createWidget(
+                MainAppWidget.class, R.layout.main_app_widget
+        );
+        View widgetView = shadowWidgetManager.getViewFor(widgetId);
+        widgetView.findViewById(R.id.widgetIcon).performClick();
+
+        ShadowApplication shadowApp = shadowOf(application);
+        String nextAction = shadowApp.getNextStartedActivity().getAction();
+        assertThat(nextAction, is(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+    }
 }
