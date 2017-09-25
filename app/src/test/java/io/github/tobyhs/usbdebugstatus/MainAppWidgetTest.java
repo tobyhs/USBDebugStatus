@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.ColorInt;
 import android.view.View;
@@ -15,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowAppWidgetManager;
 import org.robolectric.shadows.ShadowApplication;
 
@@ -24,8 +22,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-// Widget layout inflating isn't working with Marshmallow on Robolectric
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP_MR1)
 public class MainAppWidgetTest {
     private Application application;
     private ShadowAppWidgetManager shadowWidgetManager;

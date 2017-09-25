@@ -3,7 +3,6 @@ package io.github.tobyhs.usbdebugstatus;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.Settings;
 
 import java.util.Collection;
@@ -12,9 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.android.controller.ServiceController;
 import org.robolectric.shadows.ShadowContentResolver;
-import org.robolectric.util.ServiceController;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +22,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP_MR1)
 public class AdbStatusServiceTest {
     @Test
     public void registersAdbEnabledObserver() {
