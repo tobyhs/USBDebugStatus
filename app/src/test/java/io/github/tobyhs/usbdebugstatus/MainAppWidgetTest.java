@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
-import android.support.annotation.ColorInt;
 import android.view.View;
 
 import org.junit.Before;
@@ -54,7 +53,7 @@ public class MainAppWidgetTest {
      * @param widgetIds IDs of widgets to check
      * @param color expected color of the status indicators
      */
-    private void checkColorOfWidgets(int[] widgetIds, @ColorInt int color) {
+    private void checkColorOfWidgets(int[] widgetIds, int color) {
         for (int widgetId : widgetIds) {
             View widgetView = shadowWidgetManager.getViewFor(widgetId);
             View statusIndicator = widgetView.findViewById(R.id.statusIndicator);
