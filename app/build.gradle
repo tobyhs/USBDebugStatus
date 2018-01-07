@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "io.github.tobyhs.usbdebugstatus"
@@ -31,6 +31,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.2.9'
-    testCompile 'org.robolectric:robolectric:3.4.2'
+    testCompile 'org.mockito:mockito-core:2.11.0'
+    testCompile 'org.robolectric:robolectric:3.5.1'
 }
