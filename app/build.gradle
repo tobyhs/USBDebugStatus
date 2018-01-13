@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "io.github.tobyhs.usbdebugstatus"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
