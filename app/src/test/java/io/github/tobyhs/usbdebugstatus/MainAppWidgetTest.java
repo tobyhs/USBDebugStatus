@@ -1,8 +1,8 @@
 package io.github.tobyhs.usbdebugstatus;
 
 import android.app.Application;
+import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
@@ -17,17 +17,17 @@ import org.robolectric.shadows.ShadowAppWidgetManager;
 import org.robolectric.shadows.ShadowApplication;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainAppWidgetTest {
-    private Application application;
+    private Application application = RuntimeEnvironment.application;
     private ShadowAppWidgetManager shadowWidgetManager;
 
     @Before
     public void setup() {
-        application = RuntimeEnvironment.application;
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(application);
         shadowWidgetManager = shadowOf(widgetManager);
     }
@@ -63,19 +63,6 @@ public class MainAppWidgetTest {
     }
 
     @Test
-    public void checkAdbStatusService() {
-        MainAppWidget widget = new MainAppWidget();
-        ShadowApplication shadowApp = shadowOf(application);
-        ComponentName serviceComponent = new ComponentName(application, AdbStatusService.class);
-
-        widget.onEnabled(application);
-        assertThat(shadowApp.getNextStartedService().getComponent(), is(serviceComponent));
-
-        widget.onDisabled(application);
-        assertThat(shadowApp.getNextStoppedService().getComponent(), is(serviceComponent));
-    }
-
-    @Test
     public void clickOpensDeveloperOptions() {
         int widgetId = shadowWidgetManager.createWidget(
                 MainAppWidget.class, R.layout.main_app_widget
@@ -86,5 +73,19 @@ public class MainAppWidgetTest {
         ShadowApplication shadowApp = shadowOf(application);
         String nextAction = shadowApp.getNextStartedActivity().getAction();
         assertThat(nextAction, is(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+    }
+
+    @Test
+    public void onEnabled() {
+        new MainAppWidget().onEnabled(application);
+        UpdateWidgetsJobServiceTest.assertJobScheduled(application);
+    }
+
+    @Test
+    public void onDisabled() {
+        UpdateWidgetsJobService.schedule(application);
+        new MainAppWidget().onDisabled(application);
+        JobScheduler jobScheduler = application.getSystemService(JobScheduler.class);
+        assertThat(jobScheduler.getPendingJob(UpdateWidgetsJobService.JOB_ID), is(nullValue()));
     }
 }

@@ -1,6 +1,7 @@
 package io.github.tobyhs.usbdebugstatus;
 
 import android.app.PendingIntent;
+import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -51,12 +52,13 @@ public class MainAppWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        context.startService(new Intent(context, AdbStatusService.class));
+        UpdateWidgetsJobService.schedule(context);
     }
 
     @Override
     public void onDisabled(Context context) {
-        context.stopService(new Intent(context, AdbStatusService.class));
         super.onDisabled(context);
+        JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
+        jobScheduler.cancel(UpdateWidgetsJobService.JOB_ID);
     }
 }
