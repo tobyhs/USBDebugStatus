@@ -15,6 +15,7 @@ import android.provider.Settings;
 public class UpdateWidgetsJobService extends JobService {
     static final int JOB_ID = 1;
     static final JobInfo JOB_INFO;
+    static final long JOB_MAX_DELAY_MS = 1000;
 
     MainAppWidget mainAppWidget = new MainAppWidget();
 
@@ -24,7 +25,10 @@ public class UpdateWidgetsJobService extends JobService {
         );
         Uri uri = Settings.Global.getUriFor(Settings.Global.ADB_ENABLED);
         JobInfo.TriggerContentUri triggerUri = new JobInfo.TriggerContentUri(uri, 0);
-        JOB_INFO = new JobInfo.Builder(JOB_ID, component).addTriggerContentUri(triggerUri).build();
+        JOB_INFO = new JobInfo.Builder(JOB_ID, component)
+                .addTriggerContentUri(triggerUri)
+                .setTriggerContentMaxDelay(JOB_MAX_DELAY_MS)
+                .build();
     }
 
     /**

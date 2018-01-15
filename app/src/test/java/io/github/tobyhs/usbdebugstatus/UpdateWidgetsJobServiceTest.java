@@ -58,5 +58,6 @@ public class UpdateWidgetsJobServiceTest {
         assertThat(jobInfo.getTriggerContentUris(), arrayWithSize(1));
         JobInfo.TriggerContentUri triggerUri = jobInfo.getTriggerContentUris()[0];
         assertThat(triggerUri.getUri(), is(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED)));
+        assertThat(jobInfo.getTriggerContentMaxDelay(), is(UpdateWidgetsJobService.JOB_MAX_DELAY_MS));
     }
 }
