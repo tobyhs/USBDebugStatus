@@ -17,7 +17,6 @@
                 android:resource="@xml/main_app_widget_info" />
         </receiver>
 
-        <service android:name=".AdbStatusService" />
         <service
             android:name=".UpdateWidgetsJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
