@@ -15,9 +15,11 @@ import android.widget.RemoteViews;
  * A home screen widget that shows whether USB debugging is enabled.
  */
 public class MainAppWidget extends AppWidgetProvider {
-    public static ComponentName COMPONENT_NAME = new ComponentName(
+    private static final ComponentName COMPONENT_NAME = new ComponentName(
             "io.github.tobyhs.usbdebugstatus", "io.github.tobyhs.usbdebugstatus.MainAppWidget"
     );
+
+    private static final String SET_BACKGROUND_COLOR = "setBackgroundColor";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -31,7 +33,7 @@ public class MainAppWidget extends AppWidgetProvider {
                 context.getContentResolver(), Settings.Global.ADB_ENABLED, 0
         ) == 1;
         int color = adbEnabled ? Color.GREEN : Color.RED;
-        views.setInt(R.id.statusIndicator, "setBackgroundColor", color);
+        views.setInt(R.id.statusIndicator, SET_BACKGROUND_COLOR, color);
 
         for (int appWidgetId : appWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, views);
