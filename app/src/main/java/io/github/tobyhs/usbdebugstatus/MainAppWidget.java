@@ -48,7 +48,7 @@ public class MainAppWidget extends AppWidgetProvider {
     public void updateAll(Context context) {
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
         int[] widgetIds = widgetManager.getAppWidgetIds(COMPONENT_NAME);
-        new MainAppWidget().onUpdate(context, widgetManager, widgetIds);
+        onUpdate(context, widgetManager, widgetIds);
     }
 
     @Override
