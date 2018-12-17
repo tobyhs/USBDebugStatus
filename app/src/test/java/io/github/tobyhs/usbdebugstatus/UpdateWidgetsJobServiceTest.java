@@ -47,7 +47,7 @@ public class UpdateWidgetsJobServiceTest {
      *
      * @param context the application context
      */
-    public static void assertJobScheduled(Context context) {
+    static void assertJobScheduled(Context context) {
         JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
         JobInfo jobInfo = jobScheduler.getPendingJob(UpdateWidgetsJobService.JOB_ID);
 

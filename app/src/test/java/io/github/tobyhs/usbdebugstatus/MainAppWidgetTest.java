@@ -8,11 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
 import android.view.View;
 
+import androidx.test.core.app.ApplicationProvider;
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowAppWidgetManager;
 import org.robolectric.shadows.ShadowApplication;
 
@@ -23,7 +25,7 @@ import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainAppWidgetTest {
-    private Application application = RuntimeEnvironment.application;
+    private Application application = ApplicationProvider.getApplicationContext();
     private ShadowAppWidgetManager shadowWidgetManager;
 
     @Before
