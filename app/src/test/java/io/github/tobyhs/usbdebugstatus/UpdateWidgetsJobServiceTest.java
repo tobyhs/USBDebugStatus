@@ -8,18 +8,20 @@ import android.provider.Settings;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayWithSize;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
 public class UpdateWidgetsJobServiceTest {
-    private UpdateWidgetsJobService jobService = Robolectric.setupService(UpdateWidgetsJobService.class);
+    private final UpdateWidgetsJobService jobService = Robolectric.setupService(UpdateWidgetsJobService.class);
 
     @Test
     public void schedule() {

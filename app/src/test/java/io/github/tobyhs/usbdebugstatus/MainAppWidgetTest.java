@@ -10,10 +10,10 @@ import android.view.View;
 
 import androidx.test.core.app.ApplicationProvider;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowAppWidgetManager;
 import org.robolectric.shadows.ShadowApplication;
@@ -21,11 +21,12 @@ import org.robolectric.shadows.ShadowApplication;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainAppWidgetTest {
-    private Application application = ApplicationProvider.getApplicationContext();
+    private final Application application = ApplicationProvider.getApplicationContext();
     private ShadowAppWidgetManager shadowWidgetManager;
 
     @Before
