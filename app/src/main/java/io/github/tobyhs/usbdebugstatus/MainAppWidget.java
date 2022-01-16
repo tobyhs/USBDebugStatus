@@ -26,7 +26,12 @@ public class MainAppWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_app_widget);
 
         Intent devOptsIntent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, devOptsIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                devOptsIntent,
+                PendingIntent.FLAG_IMMUTABLE
+        );
         views.setOnClickPendingIntent(R.id.widgetIcon, pendingIntent);
 
         boolean adbEnabled = Settings.Global.getInt(
