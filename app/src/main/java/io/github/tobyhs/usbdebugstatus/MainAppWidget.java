@@ -36,9 +36,7 @@ public class MainAppWidget extends AppWidgetProvider {
         ) == 1;
         views.setCompoundButtonChecked(R.id.status, adbEnabled);
 
-        for (int appWidgetId : appWidgetIds) {
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
+        appWidgetManager.updateAppWidget(appWidgetIds, views);
     }
 
     /**
