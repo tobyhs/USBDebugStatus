@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.provider.Settings;
 import android.widget.RemoteViews;
 
@@ -18,8 +17,6 @@ public class MainAppWidget extends AppWidgetProvider {
     private static final ComponentName COMPONENT_NAME = new ComponentName(
             "io.github.tobyhs.usbdebugstatus", "io.github.tobyhs.usbdebugstatus.MainAppWidget"
     );
-
-    private static final String SET_BACKGROUND_COLOR = "setBackgroundColor";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -37,8 +34,7 @@ public class MainAppWidget extends AppWidgetProvider {
         boolean adbEnabled = Settings.Global.getInt(
                 context.getContentResolver(), Settings.Global.ADB_ENABLED, 0
         ) == 1;
-        int color = adbEnabled ? Color.GREEN : Color.RED;
-        views.setInt(R.id.statusIndicator, SET_BACKGROUND_COLOR, color);
+        views.setCompoundButtonChecked(R.id.status, adbEnabled);
 
         for (int appWidgetId : appWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, views);

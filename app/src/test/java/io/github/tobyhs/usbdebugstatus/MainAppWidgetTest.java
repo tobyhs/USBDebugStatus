@@ -3,11 +3,9 @@ package io.github.tobyhs.usbdebugstatus;
 import android.app.Application;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
 import android.view.View;
-
+import android.widget.Switch;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Before;
@@ -36,32 +34,31 @@ public class MainAppWidgetTest {
     }
 
     @Test
-    public void statusIndicators() {
+    public void statusSwitches() {
         Settings.Global.putInt(application.getContentResolver(), Settings.Global.ADB_ENABLED, 0);
         int[] widgetIds = shadowWidgetManager.createWidgets(
                 MainAppWidget.class, R.layout.main_app_widget, 2
         );
 
-        checkColorOfWidgets(widgetIds, Color.RED);
+        checkStatusSwitches(widgetIds, false);
 
         Settings.Global.putInt(application.getContentResolver(), Settings.Global.ADB_ENABLED, 1);
         new MainAppWidget().updateAll(application);
 
-        checkColorOfWidgets(widgetIds, Color.GREEN);
+        checkStatusSwitches(widgetIds, true);
     }
 
     /**
-     * Checks that the widgets with the given IDs have status indicators of the right color.
+     * Checks that the widgets with the given IDs have status switches in the expected state.
      *
      * @param widgetIds IDs of widgets to check
-     * @param color expected color of the status indicators
+     * @param checked whether the switches are expected to be the checked state
      */
-    private void checkColorOfWidgets(int[] widgetIds, int color) {
+    private void checkStatusSwitches(int[] widgetIds, boolean checked) {
         for (int widgetId : widgetIds) {
             View widgetView = shadowWidgetManager.getViewFor(widgetId);
-            View statusIndicator = widgetView.findViewById(R.id.statusIndicator);
-            ColorDrawable background = (ColorDrawable) statusIndicator.getBackground();
-            assertThat(background.getColor(), is(color));
+            Switch statusSwitch = widgetView.findViewById(R.id.status);
+            assertThat(statusSwitch.isChecked(), is(checked));
         }
     }
 
