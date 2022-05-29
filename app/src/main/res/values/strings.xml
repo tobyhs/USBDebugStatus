@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">USB Debug Status</string>
+    <string name="write_secure_settings_error">Use adb to grant android.permission.WRITE_SECURE_SETTINGS</string>
 </resources>
