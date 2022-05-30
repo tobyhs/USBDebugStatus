@@ -22,19 +22,29 @@ public class MainAppWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_app_widget);
 
-        Intent devOptsIntent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
+        PendingIntent devOptsPendingIntent = PendingIntent.getActivity(
                 context,
                 0,
-                devOptsIntent,
+                new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS),
                 PendingIntent.FLAG_IMMUTABLE
         );
-        views.setOnClickPendingIntent(R.id.widgetIcon, pendingIntent);
+        views.setOnClickPendingIntent(R.id.widgetIcon, devOptsPendingIntent);
 
         boolean adbEnabled = Settings.Global.getInt(
                 context.getContentResolver(), Settings.Global.ADB_ENABLED, 0
         ) == 1;
         views.setCompoundButtonChecked(R.id.status, adbEnabled);
+
+        PendingIntent toggleReceiverPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                new Intent(context, USBDebugToggleReceiver.class),
+                PendingIntent.FLAG_MUTABLE
+        );
+        views.setOnCheckedChangeResponse(
+                R.id.status,
+                RemoteViews.RemoteResponse.fromPendingIntent(toggleReceiverPendingIntent)
+        );
 
         appWidgetManager.updateAppWidget(appWidgetIds, views);
     }

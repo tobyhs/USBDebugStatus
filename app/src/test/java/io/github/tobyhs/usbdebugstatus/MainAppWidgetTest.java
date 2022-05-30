@@ -3,26 +3,33 @@ package io.github.tobyhs.usbdebugstatus;
 import android.app.Application;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.RemoteViews;
 import android.widget.Switch;
+
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowAppWidgetManager;
 import org.robolectric.shadows.ShadowApplication;
 
+import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.robolectric.Shadows.shadowOf;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(AndroidJUnit4.class)
 public class MainAppWidgetTest {
     private final Application application = ApplicationProvider.getApplicationContext();
     private ShadowAppWidgetManager shadowWidgetManager;
@@ -63,7 +70,7 @@ public class MainAppWidgetTest {
     }
 
     @Test
-    public void clickOpensDeveloperOptions() {
+    public void clickingIconOpensDeveloperOptions() {
         int widgetId = shadowWidgetManager.createWidget(
                 MainAppWidget.class, R.layout.main_app_widget
         );
@@ -73,6 +80,28 @@ public class MainAppWidgetTest {
         ShadowApplication shadowApp = shadowOf(application);
         String nextAction = shadowApp.getNextStartedActivity().getAction();
         assertThat(nextAction, is(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+    }
+
+    @Test
+    public void toggleSwitch() {
+        Settings.Global.putInt(application.getContentResolver(), Settings.Global.ADB_ENABLED, 0);
+        int widgetId = shadowWidgetManager.createWidget(
+                MainAppWidget.class, R.layout.main_app_widget
+        );
+        View widgetView = shadowWidgetManager.getViewFor(widgetId);
+        Switch statusSwitch = widgetView.findViewById(R.id.status);
+        statusSwitch.toggle();
+        statusSwitch.toggle();
+
+        ShadowApplication shadowApp = shadowOf(application);
+        List<Intent> intents = shadowApp.getBroadcastIntents();
+        assertThat(intents.size(), is(2));
+        Iterable<String> intentClassNames = intents.stream()
+                .map(intent -> intent.getComponent().getClassName())
+                .collect(Collectors.toList());
+        assertThat(intentClassNames, everyItem(is(USBDebugToggleReceiver.class.getName())));
+        assertThat(intents.get(0).getBooleanExtra(RemoteViews.EXTRA_CHECKED, false), is(true));
+        assertThat(intents.get(1).getBooleanExtra(RemoteViews.EXTRA_CHECKED, true), is(false));
     }
 
     @Test
