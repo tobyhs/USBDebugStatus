@@ -1,5 +1,6 @@
 package io.github.tobyhs.usbdebugstatus;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
@@ -7,6 +8,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.widget.RemoteViews;
 
@@ -34,6 +36,11 @@ public class MainAppWidget extends AppWidgetProvider {
                 context.getContentResolver(), Settings.Global.ADB_ENABLED, 0
         ) == 1;
         views.setCompoundButtonChecked(R.id.status, adbEnabled);
+
+        boolean canWriteSecureSettings = context.checkSelfPermission(
+                Manifest.permission.WRITE_SECURE_SETTINGS
+        ) == PackageManager.PERMISSION_GRANTED;
+        views.setBoolean(R.id.status, "setEnabled", canWriteSecureSettings);
 
         PendingIntent toggleReceiverPendingIntent = PendingIntent.getBroadcast(
                 context,

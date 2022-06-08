@@ -1,5 +1,6 @@
 package io.github.tobyhs.usbdebugstatus;
 
+import android.Manifest;
 import android.app.Application;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
@@ -83,17 +84,32 @@ public class MainAppWidgetTest {
     }
 
     @Test
-    public void toggleSwitch() {
-        Settings.Global.putInt(application.getContentResolver(), Settings.Global.ADB_ENABLED, 0);
+    public void disabledSwitch() {
+        ShadowApplication shadowApp = shadowOf(application);
+        shadowApp.denyPermissions(Manifest.permission.WRITE_SECURE_SETTINGS);
         int widgetId = shadowWidgetManager.createWidget(
                 MainAppWidget.class, R.layout.main_app_widget
         );
         View widgetView = shadowWidgetManager.getViewFor(widgetId);
         Switch statusSwitch = widgetView.findViewById(R.id.status);
+        assertThat(statusSwitch.isEnabled(), is(false));
+    }
+
+    @Test
+    public void enabledSwitch() {
+        Settings.Global.putInt(application.getContentResolver(), Settings.Global.ADB_ENABLED, 0);
+        ShadowApplication shadowApp = shadowOf(application);
+        shadowApp.grantPermissions(Manifest.permission.WRITE_SECURE_SETTINGS);
+        int widgetId = shadowWidgetManager.createWidget(
+                MainAppWidget.class, R.layout.main_app_widget
+        );
+        View widgetView = shadowWidgetManager.getViewFor(widgetId);
+        Switch statusSwitch = widgetView.findViewById(R.id.status);
+        assertThat(statusSwitch.isEnabled(), is(true));
+
         statusSwitch.toggle();
         statusSwitch.toggle();
 
-        ShadowApplication shadowApp = shadowOf(application);
         List<Intent> intents = shadowApp.getBroadcastIntents();
         assertThat(intents.size(), is(2));
         Iterable<String> intentClassNames = intents.stream()
