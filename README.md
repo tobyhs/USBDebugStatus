@@ -13,3 +13,8 @@ After running the above command, you may need to re-add the widget.
 
 After adding the widget to your home screen, you may need to restart your phone
 for it to work properly. I haven't figured out why this is sometimes necessary.
+
+### Battery Saver
+
+The widget does not update when using Batter Saver on some phones.
+In order to work around this, you can open the `App Info` screen, tap `App battery usage`, and select `Unrestricted`.
