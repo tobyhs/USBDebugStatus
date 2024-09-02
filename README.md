@@ -17,4 +17,7 @@ for it to work properly. I haven't figured out why this is sometimes necessary.
 ### Battery Saver
 
 The widget does not update when using Batter Saver on some phones.
-In order to work around this, you can open the `App Info` screen, tap `App battery usage`, and select `Unrestricted`.
+In order to work around this, you can open the `App Info` screen, tap `App battery usage`, and select `Unrestricted`. If you don't see this setting, you can use adb:
+```sh
+adb shell dumpsys deviceidle whitelist +io.github.tobyhs.usbdebugstatus
+```
