@@ -7,5 +7,5 @@ allprojects {
 }
 
 plugins {
-    id("com.android.application") version "8.7.1" apply false
+    id("com.android.application") version "8.7.3" apply false
 }
