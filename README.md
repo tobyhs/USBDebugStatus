@@ -1,5 +1,7 @@
 # USB Debug Status
 
+Note: This app no longer works on Android 17 (SDK version 37) because `Settings.Global.ADB_ENABLED` is marked as redacted, so third-party apps can't read it (https://cs.android.com/android/_/android/platform/frameworks/base/+/5d466bf8025ed8a68d9d49b47289f4f5cefbc139).
+
 USB Debug Status is an Android home screen widget that indicates whether USB
 debugging is on. Clicking the icon on the widget will open the Developer
 options screen.
